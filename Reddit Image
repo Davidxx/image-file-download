@@ -1,0 +1,24 @@
+# The following is a script that takes a Reddit URL and downloads the alien
+# image file of the given sub-Reddit.
+
+
+import urllib
+import re
+
+url = raw_input("Enter a Reddit URL: ")
+source = urllib.urlopen(url).read()
+if "id=\'header-img\'" in source:
+    found = source.find("id=\'header-img\'")
+    source = source[found:].split()[1]
+    source = source[5:len(source)-1]
+    filename = "Reddit Image.png"
+    file1 = open(filename,'wb')
+    file1.write(urllib.urlopen(source).read())
+    file1.close()
+else:
+    found = re.findall("http://www.redditstatic.com/+\w+.(?:jpg|gif|png)",source)
+    source = found[0]
+    filename = "Reddit Image.png"
+    file1 = open(filename,'wb')
+    file1.write(urllib.urlopen(source).read())
+    file1.close()
